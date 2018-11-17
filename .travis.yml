@@ -7,4 +7,4 @@ before_install:
   - chmod +x ./gradlew
 
 after_success:
-  - ./gradlew bintrayUpload -PbintrayUser=$BINTRAYUSER -PbintrayKey=$BINTRAYKEY  --info
+  - ./gradlew funDeploy  --info
