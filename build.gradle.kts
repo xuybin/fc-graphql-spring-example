@@ -4,7 +4,7 @@ import java.nio.file.attribute.BasicFileAttributes
 
 buildscript {
     mapOf(
-        "fc-graphql-spring" to "0.1.0"
+        "fcGraphqlSpring" to "com.github.xuybin:fc-graphql-spring:0.1.2"
     ).entries.forEach {
         extra.set(it.key, parent?.extra?.run { if (has(it.key)) get(it.key) else null } ?: it.value)
     }
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compile("com.github.xuybin:fc-graphql-spring:${extra["fc-graphql-spring"]}")
+    compile(extra["fcGraphqlSpring"].toString())
 }
 
 node {
