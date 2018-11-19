@@ -1,4 +1,4 @@
-package com.github.xuybin.example
+package com.github.xuybin.fc.graphql.example
 
 import com.github.xuybin.fc.graphql.*
 import org.springframework.stereotype.Component
@@ -6,15 +6,16 @@ import kotlin.random.Random
 
 @Component
 class HelloGraphql : GSchema(), GQuery, GMutation {
-    override fun resolverMap(): Map<String, (Context) -> Any?> {
+    override fun resolverMap(): Map<String, (GContext) -> Any?> {
         return mapOf(
-            ::hello.name to { gcontext: Context ->
+            ::hello.name to { gcontext: GContext ->
                 hello(gcontext[0])
             },
-            ::newUserId.name to { gcontext: Context ->
+            ::newUserId.name to { _: GContext ->
                 newUserId()
             }
         )
+
     }
 
     val userIdSet = mutableSetOf<String>()

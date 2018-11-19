@@ -4,7 +4,11 @@ import java.nio.file.attribute.BasicFileAttributes
 
 buildscript {
     mapOf(
-        "fcGraphqlSpring" to "com.github.xuybin:fc-graphql-spring:0.1.2"
+        "springProfile" to "",
+        "fcGraphql" to "com.github.xuybin:fc-graphql-spring:0.1.5"
+        , "springBoot" to "org.springframework.boot:spring-boot:2.0.6.RELEASE"
+        , "gson" to "com.google.code.gson:gson:2.8.5"
+        , "logback" to "ch.qos.logback:logback-classic:1.2.3"
     ).entries.forEach {
         extra.set(it.key, parent?.extra?.run { if (has(it.key)) get(it.key) else null } ?: it.value)
     }
@@ -14,6 +18,7 @@ plugins {
     application
     kotlin("jvm") version "1.3.10"
     kotlin("plugin.spring") version "1.3.10"
+    id("org.springframework.boot") version "2.0.6.RELEASE"
     id("com.moowork.node") version "1.2.0"
 }
 
@@ -22,7 +27,7 @@ version = "0.1.0"
 group = "com.github.xuybin"
 
 application {
-    mainClassName = "com.github.xuybin.fc.graphql.spring.MainKt"
+    mainClassName = "com.github.xuybin.fc.graphql.MainKt"
 }
 
 repositories {
@@ -31,7 +36,10 @@ repositories {
 }
 
 dependencies {
-    compile(extra["fcGraphqlSpring"].toString())
+    compile(extra["fcGraphql"].toString())
+    compile(extra["springBoot"].toString())
+    compile(extra["gson"].toString())
+    compile(extra["logback"].toString())
 }
 
 node {
@@ -41,6 +49,10 @@ node {
 }
 
 tasks {
+    bootRun{
+        main=project.application.mainClassName
+        args=listOf("--spring.profiles.active=dev")
+    }
     register("funDeploy", NpmTask::class) {
         group = "Node"
         project.copy {
@@ -115,10 +127,7 @@ tasks {
             freeCompilerArgs = listOf("-Xjsr305=strict")
             jvmTarget = "1.8"
         }
-        serviceLoaderGen("com.github.xuybin.fc.graphql.GSchema")
-        serviceLoaderGen("com.github.xuybin.fc.graphql.GQuery")
-        serviceLoaderGen("com.github.xuybin.fc.graphql.GMutation")
-        serviceLoaderGen("com.github.xuybin.fc.graphql.GSubscription")
+        serviceLoaderGen("com.github.xuybin.fc.graphql.GApp")
     }
 }
 

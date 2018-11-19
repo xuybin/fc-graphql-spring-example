@@ -9,9 +9,9 @@
         <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
     </springProfile>
 
-    <springProfile name="dev">
-        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
-    </springProfile>
+
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
 
     <!-- ******************** logger：精确配置package或class日志的level、appender end ******************** -->
     <logger name="com.github.xuybin" level="DEBUG" />
